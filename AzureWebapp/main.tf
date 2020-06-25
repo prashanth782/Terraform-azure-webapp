@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "example1" {
 }
 
 resource "azurerm_app_service_plan" "example1" {
-  name                = "example-appserviceplan1"
+  name                = "example-appserviceplan01"
   location            = azurerm_resource_group.example1.location
   resource_group_name = azurerm_resource_group.example1.name
 
@@ -24,7 +24,7 @@ resource "azurerm_app_service_plan" "example1" {
 }
 
 resource "azurerm_app_service" "example1" {
-  name                = "example-app-service1234567890001"
+  name                = "example-apsp45687890"
   location            = azurerm_resource_group.example1.location
   resource_group_name = azurerm_resource_group.example1.name
   app_service_plan_id = azurerm_app_service_plan.example1.id
