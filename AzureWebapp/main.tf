@@ -7,13 +7,13 @@ provider "azurerm" {
   tenant_id       = "ae3ee3ae-cc1c-4edd-b3c1-4f141e64fc42"
   features {}
 }
-resource "azurerm_resource_group" "slotDemo" {
-  name     = "slotDemoResourceGroup"
+resource "azurerm_resource_group" "slotDemo1" {
+  name     = "slotDemoResourceGroup1"
   location = "westus2"
 }
 
-resource "azurerm_app_service_plan" "slotDemo" {
-  name                = "slotAppServicePlan"
+resource "azurerm_app_service_plan" "slotDemo1" {
+  name                = "slotAppServicePlan1"
   location            = azurerm_resource_group.slotDemo.location
   resource_group_name = azurerm_resource_group.slotDemo.name
   sku {
@@ -30,14 +30,14 @@ resource "random_id" "randomId" {
 
   byte_length = 8
 }
-resource "azurerm_app_service" "slotDemo" {
+resource "azurerm_app_service" "slotDemo1" {
   name                = "slotAppService${random_id.randomId.hex}"
   location            = azurerm_resource_group.slotDemo.location
   resource_group_name = azurerm_resource_group.slotDemo.name
   app_service_plan_id = azurerm_app_service_plan.slotDemo.id
 }
 
-resource "azurerm_app_service_slot" "slotDemo" {
+resource "azurerm_app_service_slot" "slotDemo1" {
     name                = "slotAppServiceSlotOne${random_id.randomId.hex}"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
