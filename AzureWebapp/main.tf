@@ -7,15 +7,15 @@ provider "azurerm" {
   tenant_id       = "ae3ee3ae-cc1c-4edd-b3c1-4f141e64fc42"
   features {}
 }
-resource "azurerm_resource_group" "slotDemo1" {
-  name     = "slotDemoResourceGroup1"
+resource "azurerm_resource_group" "slotDemo2" {
+  name     = "slotDemoResourceGroup2"
   location = "westus2"
 }
 
-resource "azurerm_app_service_plan" "slotDemo1" {
-  name                = "slotAppServicePlan1"
-  location            = azurerm_resource_group.slotDemo1.location
-  resource_group_name = azurerm_resource_group.slotDemo1.name
+resource "azurerm_app_service_plan" "slotDemo2" {
+  name                = "slotAppServicePlan2"
+  location            = azurerm_resource_group.slotDemo2.location
+  resource_group_name = azurerm_resource_group.slotDemo2.name
   sku {
     tier = "Standard"
     size = "S1"
@@ -25,22 +25,22 @@ resource "azurerm_app_service_plan" "slotDemo1" {
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.slotDemo1.name
+    resource_group = azurerm_resource_group.slotDemo2.name
   }
 
   byte_length = 8
 }
-resource "azurerm_app_service" "slotDemo1" {
+resource "azurerm_app_service" "slotDemo2" {
   name                = "slotAppService${random_id.randomId.hex}"
-  location            = azurerm_resource_group.slotDemo1.location
-  resource_group_name = azurerm_resource_group.slotDemo1.name
-  app_service_plan_id = azurerm_app_service_plan.slotDemo1.id
+  location            = azurerm_resource_group.slotDemo2.location
+  resource_group_name = azurerm_resource_group.slotDemo2.name
+  app_service_plan_id = azurerm_app_service_plan.slotDemo2.id
 }
 
-resource "azurerm_app_service_slot" "slotDemo1" {
+resource "azurerm_app_service_slot" "slotDemo2" {
     name                = "slotAppServiceSlotOne${random_id.randomId.hex}"
-    location            = azurerm_resource_group.slotDemo1.location
-    resource_group_name = azurerm_resource_group.slotDemo1.name
-    app_service_plan_id = azurerm_app_service_plan.slotDemo1.id
-    app_service_name    = azurerm_app_service.slotDemo1.name
+    location            = azurerm_resource_group.slotDemo2.location
+    resource_group_name = azurerm_resource_group.slotDemo2.name
+    app_service_plan_id = azurerm_app_service_plan.slotDemo2.id
+    app_service_name    = azurerm_app_service.slotDemo2.name
 }
