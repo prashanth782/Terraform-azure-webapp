@@ -9,7 +9,7 @@ provider "azurerm" {
 }
 resource "azurerm_resource_group" "slotDemo2" {
   name     = "slotDemoResourceGroup2"
-  location = "westus2"
+  location = "eastus"
 }
 
 resource "azurerm_app_service_plan" "slotDemo2" {
