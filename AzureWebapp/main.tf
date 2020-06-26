@@ -14,8 +14,8 @@ resource "azurerm_resource_group" "slotDemo1" {
 
 resource "azurerm_app_service_plan" "slotDemo1" {
   name                = "slotAppServicePlan1"
-  location            = azurerm_resource_group.slotDemo.location
-  resource_group_name = azurerm_resource_group.slotDemo.name
+  location            = azurerm_resource_group.slotDemo1.location
+  resource_group_name = azurerm_resource_group.slotDemo1.name
   sku {
     tier = "Standard"
     size = "S1"
@@ -25,22 +25,22 @@ resource "azurerm_app_service_plan" "slotDemo1" {
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.slotDemo.name
+    resource_group = azurerm_resource_group.slotDemo1.name
   }
 
   byte_length = 8
 }
 resource "azurerm_app_service" "slotDemo1" {
   name                = "slotAppService${random_id.randomId.hex}"
-  location            = azurerm_resource_group.slotDemo.location
-  resource_group_name = azurerm_resource_group.slotDemo.name
-  app_service_plan_id = azurerm_app_service_plan.slotDemo.id
+  location            = azurerm_resource_group.slotDemo1.location
+  resource_group_name = azurerm_resource_group.slotDemo1.name
+  app_service_plan_id = azurerm_app_service_plan.slotDemo1.id
 }
 
 resource "azurerm_app_service_slot" "slotDemo1" {
     name                = "slotAppServiceSlotOne${random_id.randomId.hex}"
-    location            = azurerm_resource_group.slotDemo.location
-    resource_group_name = azurerm_resource_group.slotDemo.name
-    app_service_plan_id = azurerm_app_service_plan.slotDemo.id
-    app_service_name    = azurerm_app_service.slotDemo.name
+    location            = azurerm_resource_group.slotDemo1.location
+    resource_group_name = azurerm_resource_group.slotDemo1.name
+    app_service_plan_id = azurerm_app_service_plan.slotDemo1.id
+    app_service_name    = azurerm_app_service.slotDemo1.name
 }
