@@ -1,3 +1,4 @@
+# Configure the Azure provider
 provider "azurerm" {
   version         = "=2.4.0"
   subscription_id = "dad95817-dfb9-4e87-a075-cd5c7da61d9d"
@@ -6,41 +7,40 @@ provider "azurerm" {
   tenant_id       = "ae3ee3ae-cc1c-4edd-b3c1-4f141e64fc42"
   features {}
 }
-
-resource "azurerm_resource_group" "example1" {
-  name     = "example-resources"
-  location = "East US"
+resource "azurerm_resource_group" "slotDemo" {
+  name     = "slotDemoResourceGroup"
+  location = "westus2"
 }
 
-resource "azurerm_app_service_plan" "example1" {
-  name                = "example-appserviceplan01"
-  location            = azurerm_resource_group.example1.location
-  resource_group_name = azurerm_resource_group.example1.name
-
+resource "azurerm_app_service_plan" "slotDemo" {
+  name                = "slotAppServicePlan"
+  location            = azurerm_resource_group.slotDemo.location
+  resource_group_name = azurerm_resource_group.slotDemo.name
   sku {
     tier = "Standard"
     size = "S1"
   }
 }
 
-resource "azurerm_app_service" "example1" {
-  name                = "example-apsp45687890"
-  location            = azurerm_resource_group.example1.location
-  resource_group_name = azurerm_resource_group.example1.name
-  app_service_plan_id = azurerm_app_service_plan.example1.id
-
-  site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
+resource "random_id" "randomId" {
+  keepers = {
+    # Generate a new ID only when a new resource group is defined
+    resource_group = azurerm_resource_group.slotDemo.name
   }
 
-  app_settings = {
-    "SOME_KEY" = "some-value"
-  }
+  byte_length = 8
+}
+resource "azurerm_app_service" "slotDemo" {
+  name                = "slotAppService${random_id.randomId.hex}"
+  location            = azurerm_resource_group.slotDemo.location
+  resource_group_name = azurerm_resource_group.slotDemo.name
+  app_service_plan_id = azurerm_app_service_plan.slotDemo.id
+}
 
-  connection_string {
-    name  = "Database"
-    type  = "SQLServer"
-    value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
-  }
+resource "azurerm_app_service_slot" "slotDemo" {
+    name                = "slotAppServiceSlotOne${random_id.randomId.hex}"
+    location            = azurerm_resource_group.slotDemo.location
+    resource_group_name = azurerm_resource_group.slotDemo.name
+    app_service_plan_id = azurerm_app_service_plan.slotDemo.id
+    app_service_name    = azurerm_app_service.slotDemo.name
 }
