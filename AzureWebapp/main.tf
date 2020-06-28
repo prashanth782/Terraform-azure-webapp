@@ -1,21 +1,21 @@
 # Configure the Azure provider
 provider "azurerm" {
   version         = "=2.4.0"
-  subscription_id = "dad95817-dfb9-4e87-a075-cd5c7da61d9d"
-  client_id       = "3ece50b0-d8d7-4dfa-8aa9-455ffa6d9ef3"
-  client_secret   = "L72-7_Kh~DbTlKBzxo3plYYDK1HD-Lev69"
-  tenant_id       = "ae3ee3ae-cc1c-4edd-b3c1-4f141e64fc42"
+  subscription_id = "2489a3c7-9e54-4074-a38d-eb3af3bdc14f"
+  client_id       = "598fe56e-920e-428d-b16a-4b9386497ce3"
+  client_secret   = "jL6hqfkrx63b5N-2.E0S5h0.FFpu.5Pp4x"
+  tenant_id       = "c0447ee7-7b4a-40e6-85b3-dc6eda2714de"
   features {}
 }
-resource "azurerm_resource_group" "slotDemo2" {
-  name     = "slotDemoResourceGroup2"
+resource "azurerm_resource_group" "webrg" {
+  name     = "webapprg"
   location = "eastus"
 }
 
-resource "azurerm_app_service_plan" "slotDemo2" {
-  name                = "slotAppServicePlan2"
-  location            = azurerm_resource_group.slotDemo2.location
-  resource_group_name = azurerm_resource_group.slotDemo2.name
+resource "azurerm_app_service_plan" "webplan" {
+  name                = "slotAppServicePlan01"
+  location            = azurerm_resource_group.webrg.location
+  resource_group_name = azurerm_resource_group.webrg.name
   sku {
     tier = "Standard"
     size = "S1"
@@ -25,22 +25,22 @@ resource "azurerm_app_service_plan" "slotDemo2" {
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.slotDemo2.name
+    resource_group = azurerm_resource_group.webrg.name
   }
 
   byte_length = 8
 }
-resource "azurerm_app_service" "slotDemo2" {
-  name                = "slotAppService${random_id.randomId.hex}"
-  location            = azurerm_resource_group.slotDemo2.location
-  resource_group_name = azurerm_resource_group.slotDemo2.name
-  app_service_plan_id = azurerm_app_service_plan.slotDemo2.id
+resource "azurerm_app_service" "webapp" {
+  name                = "slotAppService0${random_id.randomId.hex}"
+  location            = azurerm_resource_group.webrg.location
+  resource_group_name = azurerm_resource_group.webrg.name
+  app_service_plan_id = azurerm_app_service_plan.webplan.id
 }
 
-resource "azurerm_app_service_slot" "slotDemo2" {
-    name                = "slotAppServiceSlotOne${random_id.randomId.hex}"
-    location            = azurerm_resource_group.slotDemo2.location
-    resource_group_name = azurerm_resource_group.slotDemo2.name
-    app_service_plan_id = azurerm_app_service_plan.slotDemo2.id
-    app_service_name    = azurerm_app_service.slotDemo2.name
+resource "azurerm_app_service_slot" "slotDemo0" {
+    name                = "slotAppServiceSlotOne0${random_id.randomId.hex}"
+    location            = azurerm_resource_group.webrg.location
+    resource_group_name = azurerm_resource_group.webrg.name
+    app_service_plan_id = azurerm_app_service_plan.webplan.id
+    app_service_name    = azurerm_app_service.webapp.name
 }
