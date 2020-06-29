@@ -8,12 +8,12 @@ provider "azurerm" {
   features {}
 }
 resource "azurerm_resource_group" "webrg2" {
-  name     = "webapprg"
+  name     = "webapprg1"
   location = "eastus"
 }
 
 resource "azurerm_app_service_plan" "webplan2" {
-  name                = "slotAppServicePlan03"
+  name                = "slotAppServicePlan04"
   location            = azurerm_resource_group.webrg2.location
   resource_group_name = azurerm_resource_group.webrg2.name
   sku {
@@ -31,14 +31,14 @@ resource "random_id" "randomId" {
   byte_length = 8
 }
 resource "azurerm_app_service" "webapp2" {
-  name                = "slotAppService200${random_id.randomId.hex}"
+  name                = "slotAppService400${random_id.randomId.hex}"
   location            = azurerm_resource_group.webrg2.location
   resource_group_name = azurerm_resource_group.webrg2.name
   app_service_plan_id = azurerm_app_service_plan.webplan2.id
 }
 
 resource "azurerm_app_service_slot" "slotDemo2" {
-    name                = "slotAppServiceSlotOne200${random_id.randomId.hex}"
+    name                = "slotAppServiceSlotOne400${random_id.randomId.hex}"
     location            = azurerm_resource_group.webrg2.location
     resource_group_name = azurerm_resource_group.webrg2.name
     app_service_plan_id = azurerm_app_service_plan.webplan2.id
