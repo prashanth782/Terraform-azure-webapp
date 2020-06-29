@@ -7,15 +7,15 @@ provider "azurerm" {
   tenant_id       = "c0447ee7-7b4a-40e6-85b3-dc6eda2714de"
   features {}
 }
-resource "azurerm_resource_group" "webrg1" {
+resource "azurerm_resource_group" "webrg2" {
   name     = "webapprg"
   location = "eastus"
 }
 
-resource "azurerm_app_service_plan" "webplan1" {
-  name                = "slotAppServicePlan02"
-  location            = azurerm_resource_group.webrg1.location
-  resource_group_name = azurerm_resource_group.webrg1.name
+resource "azurerm_app_service_plan" "webplan2" {
+  name                = "slotAppServicePlan03"
+  location            = azurerm_resource_group.webrg2.location
+  resource_group_name = azurerm_resource_group.webrg2.name
   sku {
     tier = "Standard"
     size = "S1"
@@ -25,22 +25,22 @@ resource "azurerm_app_service_plan" "webplan1" {
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = azurerm_resource_group.webrg1.name
+    resource_group = azurerm_resource_group.webrg2.name
   }
 
   byte_length = 8
 }
-resource "azurerm_app_service" "webapp1" {
-  name                = "slotAppService100${random_id.randomId.hex}"
-  location            = azurerm_resource_group.webrg1.location
-  resource_group_name = azurerm_resource_group.webrg1.name
-  app_service_plan_id = azurerm_app_service_plan.webplan1.id
+resource "azurerm_app_service" "webapp2" {
+  name                = "slotAppService200${random_id.randomId.hex}"
+  location            = azurerm_resource_group.webrg2.location
+  resource_group_name = azurerm_resource_group.webrg2.name
+  app_service_plan_id = azurerm_app_service_plan.webplan2.id
 }
 
-resource "azurerm_app_service_slot" "slotDemo1" {
-    name                = "slotAppServiceSlotOne100${random_id.randomId.hex}"
-    location            = azurerm_resource_group.webrg1.location
-    resource_group_name = azurerm_resource_group.webrg1.name
-    app_service_plan_id = azurerm_app_service_plan.webplan1.id
-    app_service_name    = azurerm_app_service.webapp1.name
+resource "azurerm_app_service_slot" "slotDemo2" {
+    name                = "slotAppServiceSlotOne200${random_id.randomId.hex}"
+    location            = azurerm_resource_group.webrg2.location
+    resource_group_name = azurerm_resource_group.webrg2.name
+    app_service_plan_id = azurerm_app_service_plan.webplan2.id
+    app_service_name    = azurerm_app_service.webapp2.name
 }
