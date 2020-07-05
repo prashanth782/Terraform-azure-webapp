@@ -1,10 +1,10 @@
 # Configure the Azure provider
 provider "azurerm" {
   version         = "=2.4.0"
-  subscription_id = "2489a3c7-9e54-4074-a38d-eb3af3bdc14f"
-  client_id       = "598fe56e-920e-428d-b16a-4b9386497ce3"
-  client_secret   = "jL6hqfkrx63b5N-2.E0S5h0.FFpu.5Pp4x"
-  tenant_id       = "c0447ee7-7b4a-40e6-85b3-dc6eda2714de"
+  subscription_id = "3b3fa41d-07bd-4c3b-a928-52315c0d594b"
+  client_id       = "5f09174c-d654-4480-951a-28c115a03dd3"
+  client_secret   = "Qb-3fMkfWD4ctr_m39sn~5FrlkJEo~.l1s"
+  tenant_id       = "ce47baa1-4313-4bd7-8a90-496691fc0bb1"
   features {}
 }
 resource "azurerm_resource_group" "webrg2" {
