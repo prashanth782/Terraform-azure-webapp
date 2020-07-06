@@ -3,10 +3,11 @@ provider "azurerm" {
   version         = "=2.4.0"
   subscription_id = "3b3fa41d-07bd-4c3b-a928-52315c0d594b"
   client_id       = "5f09174c-d654-4480-951a-28c115a03dd3"
-  client_secret   = "Qb-3fMkfWD4ctr_m39sn~5FrlkJEo~.l1s"
+  client_secret   = "w_Tj_ZwP79_0JJ4RcPZ~HcTL9Dj6Kj~Lo0"
   tenant_id       = "ce47baa1-4313-4bd7-8a90-496691fc0bb1"
   features {}
 }
+
 resource "azurerm_resource_group" "webrg2" {
   name     = "webapprg1"
   location = "eastus"
